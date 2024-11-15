@@ -1,49 +1,22 @@
-[package]
-name = "observer_ward"
-version = "2022.3.13"
-authors = ["Kali-Team <root@kali-team.cn>"]
+[workspace.package]
+#name = "observer-ward"                             #改这个
+version = "0.1.0"
 edition = "2021"
-description = "Cross platform community web fingerprint identification tool."
-license = "MIT"
+authors = ["Kali-Team <root@kali-team.cn>"]
 include = ["LICENSE", "Cargo.toml", "src/**/*.rs"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [workspace]
-members = ["."]
-
+members = ["engine", "observer_ward"]
+default-members = ["observer_ward"]
+resolver = "2"
+#https://github.com/johnthagen/min-sized-rust
 [profile.release]
-lto = true
-opt-level = "z"
-codegen-units = 1
-panic = "abort"
-
-[dependencies]
-clap = { default-features = false, version = "3.1.7", features = ["std"] }
-url = { version = "2.1.1", features = ["serde"] }
-csv = "1.1.6"
-dirs = "4.0.0"
-tokio = { version = "1.16.1", features = ["full"] }
-prettytable-rs = "^0.8"
-textwrap = "0.15"
-log = "0.4.16"
-futures = { version = "0.3", features = ["compat"] }
-serde = { version = "1.0.136", features = ["derive"] }
-serde_json = "1.0"
-serde_yaml = "0.8"
-serde_derive = "1.0"
-reqwest = { version = "0.11.10", features = ["socks", "blocking", "gzip"] }
-term = "*"
-observer_ward_what_web = { path = "what_web", package = "what_web" }
-observer_ward_what_server = { path = "what_server", package = "what_server" }
-lazy_static = "1.4.0"
-zip = "0.6.0"
-openssl = { version = "0.10", features = ["vendored"] }
-env_logger = "0.9.0"
-actix-web-httpauth = "0.6.0"
-actix-web = { version = "4.0.1", features = ["openssl"] }
-[target.'cfg(not(target_os = "windows"))'.dependencies]
-daemonize = "0.4.1"
-[target.'cfg(target_os="windows")'.build-dependencies]
-winres = "0.1"
+opt-level = "z"   # Optimize for size.
+lto = true        # Enable Link Time Optimization
+codegen-units = 1 # Reduce number of codegen units to increase optimizations.
+panic = "abort"   # Abort on panic
+strip = true      # Automatically strip symbols from the binary.
 
 [profile.dev.package."*"]
 opt-level = 3
